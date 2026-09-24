@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Bài Tiến Lên & Nói Láo Casino</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS bổ sung nhanh cho khu vực Nói Láo */
+        #bluffPanel {
+            display: none; /* Mặc định ẩn, app.js sẽ bật lên khi chọn BLUFF */
+            background-color: #2a1b3d;
+            border: 2px solid #9c27b0;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            color: #fff;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #bluffPanel.active {
+            display: flex;
+        }
+        .bluff-info span { margin-right: 15px; font-size: 15px; }
+        .bluff-info b { color: #ffeb3b; }
+        .bluff-actions select { width: 70px; height: 32px; text-align: center; padding: 2px; border-radius: 4px; font-weight: bold; background-color: #fff; color: #000; }
+        .bluff-actions button { background-color: #d32f2f; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        .bluff-actions button:hover { background-color: #f44336; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>CASINO TIẾN LÊN & NÓI LÁO</h2>
+
+    <div class="control-panel">
+        <label for="gameSelect"><b>Trò Chơi:</b></label>
+        <select id="gameSelect" onchange="switchGame()">
+            <option value="TIEN_LEN">Tiến Lên Miền Nam</option>
+            <option value="BLUFF">Nói Láo (Bluff + Joker)</option>
+        </select>
+        <button onclick="startGame()">▶ Ván Mới / Chia Bài</button>
+    </div>
+
+    <div id="gameMessage" class="status-box">Đang kết nối Server...</div>
+
+    <!-- Panel dành riêng cho chế độ Nói Láo (Bắt bài, chọn số) -->
+    <div id="bluffPanel">
+        <div class="bluff-info">
+            <span>Chồng phạt: <b id="penaltyPileCount">0</b> lá</span>
+            <span>Đang gọi số: <b id="currentClaimedRank">-</b></span>
+            <span>Cần: <b id="currentExpectedCount">0</b> lá</span>
+        </div>
+        <div class="bluff-actions">
+            <label>Gọi số đánh úp:</label>
+            <select id="claimedRankInput" title="Chọn số muốn khai báo">
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">J</option>
+                <option value="12">Q</option>
+                <option value="13">K</option>
+                <option value="14">A</option>
+                <option value="15">2</option>
+            </select>
+            <button onclick="challengeBluff()">BẮT BÀI (Challenge)</button>
+        </div>
+    </div>
+
+    <!-- Bàn bài Casino -->
+    <div id="gameTable" class="table">
+        <div id="bot2" class="player-slot bot">
+            <span class="player-name">Máy 2</span>
+            <div class="cards-count">Lá bài: 13</div>
+            <div class="last-action"></div>
+        </div>
+
+        <div class="middle-row">
+            <div id="bot1" class="player-slot bot">
+                <span class="player-name">Máy 1</span>
+                <div class="cards-count">Lá bài: 13</div>
+                <div class="last-action"></div>
+            </div>
+
+            <div id="centerTable" class="center-area">
+                <h4>BÀI TRÊN BÀN</h4>
+                <div id="playedCards" class="card-list"></div>
+            </div>
+
+            <div id="bot3" class="player-slot bot">
+                <span class="player-name">Máy 3</span>
+                <div class="cards-count">Lá bài: 13</div>
+                <div class="last-action"></div>
+            </div>
+        </div>
+
+        <div id="p1" class="player-slot human">
+            <span class="player-name">BẠN (Player 1)</span>
+            <div class="last-action"></div>
+            <div id="myHand" class="card-list"></div>
+            <div class="action-buttons">
+                <button id="btnPlay" onclick="playSelectedCards()">Đánh Bài / Úp</button>
+                <button id="btnPass" onclick="passTurn()">Bỏ Lượt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal hiển thị Thắng / Thua -->
+<div id="resultModal" class="modal hidden">
+    <div class="modal-content">
+        <h1 id="resultTitle">VICTORY!</h1>
+        <p id="resultDesc">Bạn đã thắng ván bài này!</p>
+        <button onclick="closeModalAndRestart()">Chơi Ván Mới</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

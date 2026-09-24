@@ -1,0 +1,379 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    user-select: none;
+}
+
+body {
+    background: #0f172a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+#app {
+    width: 100%;
+    max-width: 1100px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 12px;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.control-panel {
+    background: #1e293b;
+    padding: 10px 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    border: 1px solid #334155;
+}
+
+.control-panel select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: #fff;
+    font-weight: bold;
+}
+
+.control-panel button {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    background: #10b981;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.status-box {
+    background: #1e293b;
+    color: #fbbf24;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-left: 5px solid #f59e0b;
+}
+
+/* BÀN CASINO */
+.table {
+    background: radial-gradient(circle, #15803d 0%, #166534 70%, #14532d 100%);
+    border: 12px solid #78350f;
+    border-radius: 40px;
+    padding: 15px 25px;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.middle-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+/* KHUNG MÁY 2 (Thu gọn gọn gàng) */
+#p2, #bot2 {
+    min-width: 220px;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+/* KHUNG SLOT BOT & PLAYER */
+.player-slot {
+    background: rgba(15, 23, 42, 0.65);
+    padding: 8px 14px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-slot.bot {
+    min-width: 160px;
+}
+
+.player-slot.active-turn {
+    border-color: #f59e0b;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 14px;
+    color: #f8fafc;
+}
+
+.last-action {
+    font-size: 12px;
+    font-weight: bold;
+    min-height: 18px;
+}
+
+.last-action.play-text { color: #facc15; }
+.last-action.pass-text { color: #f87171; }
+
+/* BÀI ÚP CỦA BOT */
+.bot-cards {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.card-back {
+    width: 20px;
+    height: 30px;
+    background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+    border: 1px solid #fff;
+    border-radius: 3px;
+    margin-left: -11px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+.card-back:first-child {
+    margin-left: 0;
+}
+
+/* KHUNG BÀI TRÊN BÀN */
+.center-area {
+    background: rgba(0, 0, 0, 0.25);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 12px;
+    min-width: 320px;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-area h4 {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 8px;
+}
+
+/* ĐẢM BẢO BÀI ĐÁNH RA TRÊN BÀN XẾP HÀNG NGANG */
+#playedCards {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* KHUNG NGƯỜI CHƠI BẠN (1 HÀNG DUY NHẤT) */
+.human {
+    width: 100%;
+    max-width: 850px;
+}
+
+#myHand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; /* Không cho xuống dòng */
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 25px 10px 10px 10px;
+}
+
+/* LÁ BÀI */
+.card {
+    width: 58px;
+    height: 88px;
+    background: #ffffff;
+    color: #1e293b;
+    border-radius: 7px;
+    border: 1px solid #cbd5e1;
+    font-size: 19px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: -2px 3px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.card.red { color: #dc2626; }
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+.card.selected {
+    transform: translateY(-24px) !important;
+    border: 3px solid #f59e0b;
+    box-shadow: 0 10px 20px rgba(245, 158, 11, 0.6);
+    z-index: 20;
+}
+
+/* Lá bài đánh ra trên bàn */
+.card.center-card {
+    margin-left: 0 !important;
+    cursor: default;
+}
+
+.card.center-card:hover { transform: none; }
+
+.action-buttons {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.action-buttons button {
+    padding: 9px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#btnPlay { background: #2563eb; color: white; }
+#btnPlay:hover { background: #1d4ed8; }
+
+#btnPass { background: #dc2626; color: white; }
+#btnPass:hover { background: #b91c1c; }
+
+/* MODAL POPUP */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+    background: #1e293b;
+    padding: 30px 50px;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #334155;
+}
+
+.modal-content h1 { font-size: 34px; margin-bottom: 10px; }
+.modal-content p { font-size: 15px; color: #cbd5e1; margin-bottom: 20px; }
+.modal-content button {
+    padding: 10px 26px;
+    font-size: 15px;
+    font-weight: bold;
+    background: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+/* BLUFF PANEL (Bổ sung hoàn thiện) */
+#bluffPanel {
+    display: none;
+    background: #2a1b3d;
+    border: 2px solid #9c27b0;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-bottom: 12px;
+    color: #fff;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1100px;
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+}
+
+#bluffPanel.active {
+    display: flex;
+}
+
+.bluff-info {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.bluff-info span {
+    color: #e2e8f0;
+}
+
+.bluff-info b {
+    color: #ffeb3b;
+    font-size: 15px;
+}
+
+.bluff-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bluff-actions label {
+    font-size: 13px;
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.bluff-actions select {
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #7e22ce;
+    background: #0f172a;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bluff-actions button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.bluff-actions button:hover {
+    background-color: #ef4444;
+}
